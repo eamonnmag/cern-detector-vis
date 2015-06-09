@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>R5 View of Detector</title>
+</head>
+<body>
+
+<div id="cms-detector-2d-500" style="display: inline-block; width: 500px; height: 500px"></div>
+<div id="cms-detector-2d-400" style="display: inline-block; width: 400px; height: 400px"></div>
+<div id="cms-detector-2d-300" style="display: inline-block; width: 300px; height: 300px"></div>
+<div id="cms-detector-2d-200" style="display: inline-block; width: 200px; height: 200px"></div>
+
+</body>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>-->
+<script src="assets/d3.v3.min.js"></script>
+<script src="assets/CMSVis2D.js"></script>
+<script type="text/javascript">
+    CMSVis2D.rendering.render("#cms-detector-2d-500", "event", {"width":500, "height":500});
+    CMSVis2D.rendering.render("#cms-detector-2d-400", "event", {"width":400, "height":400});
+    CMSVis2D.rendering.render("#cms-detector-2d-300", "event", {"width":300, "height":300});
+    CMSVis2D.rendering.render("#cms-detector-2d-200", "event", {"width":200, "height":200});
+</script>
+</html>
