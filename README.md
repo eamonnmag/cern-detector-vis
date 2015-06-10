@@ -7,7 +7,7 @@ Event display capabilities will be added in the coming days.
 
 Status: almost done. Some cleanups to do.
 
-![image](examples/cms.png)
+![image](examples/cms.png =300x)
 
 ## ATLAS
 
