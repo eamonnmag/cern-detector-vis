@@ -20,7 +20,7 @@ CMSVis2D.options = {
 
 CMSVis2D.rendering = {
 
-    render: function (placement, event, options) {
+    render: function (placement, events, options) {
 
         CMSVis2D.options.width = options.width;
         CMSVis2D.options.height = options.height;
@@ -32,6 +32,7 @@ CMSVis2D.rendering = {
             .attr("transform", "scale(.9)");
 
         CMSVis2D.rendering.draw_detector();
+        CMSVis2D.rendering.render_events(events);
 
     },
 
@@ -177,7 +178,13 @@ CMSVis2D.rendering = {
         var central_x = (CMSVis2D.options.width / 2);
         var central_y = CMSVis2D.options.height / 2;
 
-        var chambers = [{"size":CMSVis2D.options.width * .85, "stroke": CMSVis2D.options.width * .035}, {"size":CMSVis2D.options.width * .7, "stroke": CMSVis2D.options.width * .035}, {"size":CMSVis2D.options.width * .57, "stroke": CMSVis2D.options.width * .02,"fill": "white"}];
+        var chambers = [{
+            "size": CMSVis2D.options.width * .85,
+            "stroke": CMSVis2D.options.width * .035
+        }, {
+            "size": CMSVis2D.options.width * .7,
+            "stroke": CMSVis2D.options.width * .035
+        }, {"size": CMSVis2D.options.width * .57, "stroke": CMSVis2D.options.width * .02, "fill": "white"}];
         for (var chamber in chambers) {
             CMSVis2D.rendering.draw_chamber_layer(chambers[chamber], central_x, central_y)
         }
@@ -215,31 +222,64 @@ CMSVis2D.rendering = {
             .style("fill", "#fff")
     },
 
-    draw_events: function (events) {
+    render_events: function (events) {
 
         var scaleX = d3.scale.linear()
-            .domain([-50, 50])
+            .domain([-100, 100])
             .range([0, CMSVis2D.options.width]);
 
         var scaleY = d3.scale.linear()
-            .domain([0, 100])
+            .domain([-100, 100])
             .range([CMSVis2D.options.height, 0]);
 
-        var events = [
-            {"end-x": -45, "end-y": 40, "type": "neutrino"},
-            {"end-x": -45, "end-y": 40, "type": "neutrino"},
-            {"end-x": -45, "end-y": 40, "type": "neutrino"},
-            {"end-x": -45, "end-y": 40, "type": "neutrino"},
-            {"end-x": -45, "end-y": 40, "type": "neutrino"},
-            {"end-x": -45, "end-y": 40, "type": "neutrino"}
-        ];
 
-        var start_position = [CMSVis2D.options.width / 2, CMSVis2D.options.height / 2];
-        for (var event_idx in events) {
+        var line = d3.svg.line()
+            .interpolate("basis")
+            .x(function (d) {
+                return scaleX(d.x);
+            })
+            .y(function (d) {
+                return scaleY(d.y);
+            });
 
-            // draw animated bezier paths to represent each signal.
-            // colour dependent on type or probably would be the energy level.
+        var path = CMSVis2D.variables.svg.selectAll("path")
+            .data(events)
+            .enter().append("path")
+            .attr("d", function (d, i) {
+                d['delay'] = i * 100;
+                var line_path = [{x: 0, y: 0}, {x: d.x / 6, y: d.y + 2}, d];
+                return line(line_path)
+            })
+            .attr("stroke", function (d) {
+                return d.color;
+            })
+            .attr("stroke-width", CMSVis2D.options.width * .004)
+            .attr("fill", "none")
+            .attr("stroke-linecap", "round");
+
+        function start_outgoing_animation(events) {
+
+            path
+                .attr("stroke-dasharray", function () {
+                    return d3.select(this).node().getTotalLength() + " " + d3.select(this).node().getTotalLength()
+                })
+                .attr("stroke-dashoffset", function () {
+                    return d3.select(this).node().getTotalLength();
+                })
+                .transition()
+                .duration(1500)
+                .delay(function (d) {
+                    return d.delay;
+                })
+                .ease("linear")
+                .attr("stroke-dashoffset", 0);
+
+            return path;
         }
+
+        start_outgoing_animation(events);
+        //start_incoming_animation(path);
     }
+
 
 };

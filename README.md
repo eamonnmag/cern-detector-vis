@@ -7,6 +7,8 @@ Event display capabilities will be added in the coming days.
 
 Status: almost done. Some cleanups to do.
 
+![image](examples/cms.png)
+
 ## ATLAS
 
 Status: todo

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>R5 View of Detector</title>
+</head>
+<body>
+
+<div id="hepdata-2d-300" style="display: inline-block; width: 500px; height: 500px"></div>
+
+</body>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js"></script>-->
+<script src="assets/d3.v3.min.js"></script>
+<script src="assets/CMSVis2D.js"></script>
+<script type="text/javascript">
+    CMSVis2D.rendering.render_event("#hepdata-2d-300", [
+        {x:26, y:30, color:"#955BA5"},
+        {x:-60, y:55, color:"#2C3E50"},
+        {x:37, y:-10, color:"#955BA5"},
+        {x:-60, y:10, color:"#955BA5"},
+        {x:-27, y:-30, color:"#955BA5"},
+        {x:60, y:-55, color:"#2C3E50"}
+        ], {"width":300, "height":300});
+</script>
+</html>
+
+<!--{x:49, y:0, color:"#955BA5"},-->
+<!--{x:-60, y:40, color:"#2C3E50"},-->
+<!--{x:-80, y:0, color:"#2C3E50"},-->
+<!--{x:-60, y:70, color:"#955BA5"},-->
+<!--{x:-30, y:-80, color:"#2C3E50"},-->
+
+<!--{x:30, y:70, color:"#2C3E50"}-->
